@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CRUDApi.Controllers
 {
     [Route("api/[controller]")]
+    [Microsoft.AspNetCore.Cors.DisableCors]
     [ApiController]
     public class ClientesController : ControllerBase
     {
