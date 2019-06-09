@@ -1,0 +1,84 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Produtos",
+		"_postman_id": "a851a5b8-c6ba-b16a-930f-d3f3d7d03dd4",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar Produtos",
+			"request": {
+				"url": "http://senac-crud.azurewebsites.net/api/produtos",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Incluir Produto",
+			"request": {
+				"url": "http://senac-crud.azurewebsites.net/api/produtos",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Computador\",\n  \"descricao\": \"Computador com processar Intel Core i5 8ª Geração\",\n  \"valor\": 1500,\n  \"urlImagem\": \"https://www.terabyteshop.com.br/img/produtos/m/processador-intel-core-i5-9400f-290ghz-410ghz-max-turbo-9mb-bx80684i59400f-9-geracao-coffee-lake-lga-1151_64522.jpg\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Produto",
+			"request": {
+				"url": "http://senac-crud.azurewebsites.net/api/produtos/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Produto",
+			"request": {
+				"url": "http://senac-crud.azurewebsites.net/api/produtos/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Computador\",\n  \"descricao\": \"Computador com processar Intel Core i5 8ª Geração\",\n  \"valor\": 1200,\n  \"urlImagem\": \"https://www.terabyteshop.com.br/img/produtos/m/processador-intel-core-i5-9400f-290ghz-410ghz-max-turbo-9mb-bx80684i59400f-9-geracao-coffee-lake-lga-1151_64522.jpg\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir Produto",
+			"request": {
+				"url": "http://senac-crud.azurewebsites.net/api/produtos/1",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
