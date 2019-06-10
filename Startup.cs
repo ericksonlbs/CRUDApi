@@ -33,7 +33,7 @@ namespace CRUDApi
 });  
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "TI Senac - São Miguel Paulista - API de Testes - Cursos de TI", Version = "v1" });
+                c.SwaggerDoc("v2", new Info { Title = "TI Senac - São Miguel Paulista - API de Testes - Cursos de TI", Version = "v1" });
             });
         }
 
