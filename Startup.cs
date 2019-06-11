@@ -27,10 +27,14 @@ namespace CRUDApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddCors(c =>  
-{  
-    c.AddPolicy("MyPolicy", options => options.AllowAnyOrigin());  
-});  
+            
+            services.AddCors();
+            // services.AddCors(options =>
+            // {
+            //     options.AddPolicy("AllowAnyOrigin",
+            //     builder => builder.AllowAnyOrigin());
+            // });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v2", new Info { Title = "TI Senac - São Miguel Paulista - API de Testes - Cursos de TI.", Version = "v1" });
@@ -40,7 +44,7 @@ namespace CRUDApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-                app.UseCors(options => options.AllowAnyOrigin()); 
+            app.UseCors(options => options.AllowAnyOrigin());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
