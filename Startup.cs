@@ -27,19 +27,23 @@ namespace CRUDApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
-            services.AddCors();
-          
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowMyOrigin",
+                builder => builder.AllowAnyMethod().AllowAnyOrigin().AllowAnyHeader());
+            });
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v3", new Info { Title = "TI Senac - São Miguel Paulista - API de Testes - Cursos de TI.", Version = "v3" });
+                c.SwaggerDoc("v4", new Info { Title = "TI Senac - São Miguel Paulista - API de Testes - Cursos de TI.", Version = "v4" });
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseCors(options => options.AllowAnyOrigin());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -51,14 +55,14 @@ namespace CRUDApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
-
+            app.UseCors("AllowMyOrigin");
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v3/swagger.json", "SENAC TI API V1");
+                c.SwaggerEndpoint("/swagger/v4/swagger.json", "SENAC TI API V1");
                 c.RoutePrefix = string.Empty;
             });
 
