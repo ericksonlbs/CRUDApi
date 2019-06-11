@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CRUDApi.Controllers
 {
     [Route("api/[controller]")]
-    // [Microsoft.AspNetCore.Cors.EnableCors("MyPolicy")]
+    [Microsoft.AspNetCore.Cors.DisableCors()]
     [ApiController]
     public class ClientesController : ControllerBase
     {
@@ -17,7 +17,6 @@ namespace CRUDApi.Controllers
         public static object lockar = new object();
         // GET api/values
         [HttpGet]
-    [Microsoft.AspNetCore.Cors.EnableCors("MyPolicy")]
         public ActionResult<IEnumerable<Cliente>> Get()
         {
             return Clientes;
@@ -25,7 +24,6 @@ namespace CRUDApi.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-    [Microsoft.AspNetCore.Cors.EnableCors("MyPolicy")]
         public ActionResult<Cliente> Get(int id)
         {
             return Clientes.FirstOrDefault(x => x.Id.Equals(id));
@@ -33,7 +31,6 @@ namespace CRUDApi.Controllers
 
         // POST api/values
         [HttpPost]
-    [Microsoft.AspNetCore.Cors.EnableCors("MyPolicy")]
         public void Post([FromBody] Cliente value)
         {
             lock (lockar)
@@ -46,7 +43,6 @@ namespace CRUDApi.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-    [Microsoft.AspNetCore.Cors.EnableCors("MyPolicy")]
         public void Put(int id, [FromBody] Cliente value)
         {
             var cliente = Clientes.FirstOrDefault(x => x.Id == id);
@@ -62,7 +58,7 @@ namespace CRUDApi.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-    [Microsoft.AspNetCore.Cors.EnableCors("MyPolicy")]
+    
         public void Delete(int id)
         {
             Clientes.RemoveAll(x => x.Id == id);
