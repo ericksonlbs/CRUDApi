@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CRUDApi.Controllers
 {
     [Route("api/[controller]")]
-    [Microsoft.AspNetCore.Cors.EnableCors("MyPolicy")]
+    [Microsoft.AspNetCore.Cors.EnableCors("AllowMyOrigin")]
     [ApiController]
     public class ProdutosController : ControllerBase
     {

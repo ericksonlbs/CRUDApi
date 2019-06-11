@@ -36,7 +36,7 @@ namespace CRUDApi
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v4", new Info { Title = "TI Senac - São Miguel Paulista - API de Testes - Cursos de TI.", Version = "v4" });
+                c.SwaggerDoc("v1", new Info { Title = "TI Senac - São Miguel Paulista - API de Testes - Cursos de TI.", Version = "v1" });
             });
         }
 
@@ -62,7 +62,7 @@ namespace CRUDApi
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v4/swagger.json", "SENAC TI API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SENAC TI API V1");
                 c.RoutePrefix = string.Empty;
             });
 
