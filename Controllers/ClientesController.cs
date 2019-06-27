@@ -18,7 +18,7 @@ namespace CRUDApi.Controllers
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Cliente>> Get()
-        {
+        {            
             return Clientes;
         }
 
