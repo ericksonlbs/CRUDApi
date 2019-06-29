@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using CRUDApi.Models;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace CRUDApi.Controllers
 {
@@ -12,56 +15,67 @@ namespace CRUDApi.Controllers
     [ApiController]
     public class ClientesController : ControllerBase
     {
-        public static List<Cliente> Clientes = new List<Cliente>();
-        public static int maxIdCliente = 0;
-        public static object lockar = new object();
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<Cliente>> Get()
-        {            
-            return Clientes;
+        private IConfiguration _config;
+
+        public ClientesController(IConfiguration configuration)
+        {
+            _config = configuration;
         }
 
-        // GET api/values/5
+        [HttpGet]
+        public ActionResult<IEnumerable<Cliente>> Get()
+        {
+            using (SqlConnection conexao = new SqlConnection(
+               _config.GetConnectionString("SqlAzure")))
+            {
+
+                var a = conexao.Query<Cliente>("SELECT * from Clientes C").ToList();
+                return a;
+            }
+        }
+
         [HttpGet("{id}")]
         public ActionResult<Cliente> Get(int id)
         {
-            return Clientes.FirstOrDefault(x => x.Id.Equals(id));
+            using (SqlConnection conexao = new SqlConnection(
+               _config.GetConnectionString("SqlAzure")))
+            {
+
+                var a = conexao.QueryFirstOrDefault<Cliente>("SELECT * from Clientes C WHERE ID = @Id", new { @Id = id });
+                return a;
+            }
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody] Cliente value)
+        public ActionResult<Cliente> Post(Cliente cliente)
         {
-            lock (lockar)
+            using (SqlConnection conexao = new SqlConnection(
+               _config.GetConnectionString("SqlAzure")))
             {
-                maxIdCliente++;                
-                value.Id = maxIdCliente;
-                Clientes.Add(value);
+                var clienteInserido = conexao.QueryFirstOrDefault<Cliente>("INSERT INTO CLIENTES (nome, cpf) VALUES (@NOME, @CPF); SELECT * from Clientes C WHERE ID = @@IDENTITY", cliente);
+                return clienteInserido;
             }
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Cliente value)
-        {
-            var cliente = Clientes.FirstOrDefault(x => x.Id == id);
-
-            if (cliente != null)
-            {
-                cliente.CPF = value.CPF;
-                if (value.Endereco != null)
-                    cliente.Endereco = value.Endereco;
-                cliente.Nome = value.Nome;
-            }
-        }
-
-        // DELETE api/values/5
         [HttpDelete("{id}")]
-    
         public void Delete(int id)
         {
-            Clientes.RemoveAll(x => x.Id == id);
+            using (SqlConnection conexao = new SqlConnection(
+               _config.GetConnectionString("SqlAzure")))
+            {
+                conexao.Execute("DELETE Clientes WHERE ID = @Id", new { @Id = id });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public void Put(int id, Cliente cliente)
+        {
+            using (SqlConnection conexao = new SqlConnection(
+               _config.GetConnectionString("SqlAzure")))
+            {
+                cliente.Id = id;
+                conexao.Execute("UPDATE CLIENTES SET NOME = @Nome, CPF = @CPF WHERE ID = @Id", cliente);
+            }
         }
     }
 }
