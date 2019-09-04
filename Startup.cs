@@ -26,16 +26,19 @@ namespace CRUDApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+         
+             services.AddCors(o => o.AddPolicy("AllowMyOrigin", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+            
              services.AddSingleton<IConfiguration>(
                 _ => Configuration);
                 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowMyOrigin",
-                builder => builder.AllowAnyMethod().AllowAnyOrigin().AllowAnyHeader());
-            });
 
             services.AddSwaggerGen(c =>
             {
