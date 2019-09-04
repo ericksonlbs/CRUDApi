@@ -116,8 +116,6 @@ namespace CRUDApi.Controllers
             if (cliente != null)
             {
                 cliente.CPF = value.CPF;
-                if (value.Endereco != null)
-                    cliente.Endereco = value.Endereco;
                 cliente.Nome = value.Nome;
             }
         }
