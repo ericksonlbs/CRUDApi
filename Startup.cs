@@ -49,6 +49,7 @@ namespace CRUDApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("AllowMyOrigin");
 
             if (env.IsDevelopment())
             {
@@ -60,7 +61,6 @@ namespace CRUDApi
             }
 
             app.UseHttpsRedirection();
-            app.UseCors("AllowMyOrigin");
             app.UseMvc();
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
