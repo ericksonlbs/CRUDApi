@@ -122,8 +122,10 @@ namespace CRUDApi.Controllers
                 cliente.CPF = value.CPF;
                 cliente.Nome = value.Nome;
                 if(value.Endereco!=null){
-                cliente.Endereco.Cidade = value.Endereco.Estado;
+                cliente.Endereco.Estado = value.Endereco.Estado;
                 cliente.Endereco.Cidade = value.Endereco.Cidade;
+                cliente.Endereco.Complemento = value.Endereco.Complemento;
+                cliente.Endereco.Numero = value.Endereco.Numero;
                 }
             }
         }
