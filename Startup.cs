@@ -27,12 +27,15 @@ namespace CRUDApi
         public void ConfigureServices(IServiceCollection services)
         {
          
-             services.AddCors(o => o.AddPolicy("AllowMyOrigin", builder =>
-            {
-                builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            }));
+             services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                );
+        });
             
              services.AddSingleton<IConfiguration>(
                 _ => Configuration);
@@ -49,8 +52,8 @@ namespace CRUDApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseCors("AllowMyOrigin");
-
+            app.UseCors("CorsPolicy");
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
