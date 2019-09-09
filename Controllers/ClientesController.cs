@@ -125,6 +125,7 @@ namespace CRUDApi.Controllers
                 cliente.Endereco.Estado = value.Endereco.Estado;
                 cliente.Endereco.Cidade = value.Endereco.Cidade;
                 cliente.Endereco.Complemento = value.Endereco.Complemento;
+                cliente.Endereco.Logradouro = value.Endereco.Logradouro;
                 cliente.Endereco.Numero = value.Endereco.Numero;
                 }
             }
