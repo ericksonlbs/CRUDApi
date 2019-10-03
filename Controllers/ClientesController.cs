@@ -100,13 +100,15 @@ namespace CRUDApi.Controllers
         // POST api/values
         [HttpPost]
     [Microsoft.AspNetCore.Cors.EnableCors("CorsPolicy")]
-        public void Post([FromBody] Cliente value)
+        public Cliente Post([FromBody] Cliente value)
         {
             lock (lockar)
             {
                 maxIdCliente++;                
                 value.Id = maxIdCliente;
                 Clientes.Add(value);
+
+                return value;
             }
         }
 
