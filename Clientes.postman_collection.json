@@ -2,26 +2,33 @@
 	"variables": [],
 	"info": {
 		"name": "Clientes",
-		"_postman_id": "f431ac19-4b60-733c-457a-e5a7fa956d32",
+		"_postman_id": "17f7a1c3-29cd-6247-909d-46441cb151be",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Listar Clientes",
-			"request": {
-				"url": "http://senac-crud.azurewebsites.net/api/clientes",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
 			"name": "Incluir Cliente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Retornou em tempo hábil (até 200ms)\"] = responseTime < 200;",
+							"",
+							"tests[\"Retorno com sucesso (Status 200)\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"id\", jsonData.id);",
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "http://senac-crud.azurewebsites.net/api/clientes",
+				"url": "https://senac-crud.azurewebsites.net/api/clientes",
 				"method": "POST",
 				"header": [
 					{
@@ -32,16 +39,79 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"Nome\":\"Erickson\",\n\t\"CPF\":\"00000000191\",\n\t\"Endereco\": {\n\t\t\"Logradouro\": \"Rua 10\",\n\t\t\"Numero\": \"123\",\n\t\t\"Complemento\": \"ap 22\",\n\t\t\"Cidade\": \"São Paulo\",\n\t\t\"Estado\": \"São Paulo\"\n\t}\n}"
+					"raw": "{\n\t\"Nome\":\"Erickson\",\n\t\"CPF\":\"41263954820\",\n\t\"Endereco\": {\n\t\t\"Logradouro\": \"Rua 10\",\n\t\t\"Numero\": \"123\",\n\t\t\"Complemento\": \"ap 22\",\n\t\t\"Cidade\": \"São Paulo\",\n\t\t\"Estado\": \"São Paulo\"\n\t}\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "Consultar Cliente",
+			"name": "Consultar Cliente (Verificar Inclusão)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Gravou Nome\"] = jsonData.nome === 'Erickson';",
+							"tests[\"Gravou CPF\"] = jsonData.cpf === '41263954820';",
+							"tests[\"Gravou Logradouro\"] = jsonData.endereco.logradouro === 'Rua 10';",
+							"tests[\"Gravou Número\"] = jsonData.endereco.numero === '123';",
+							"tests[\"Gravou Complemento\"] = jsonData.endereco.complemento === 'ap 22';",
+							"tests[\"Gravou Cidade\"] = jsonData.endereco.cidade === 'São Paulo';",
+							"tests[\"Gravou Estado\"] = jsonData.endereco.estado === 'São Paulo';",
+							"tests[\"Retornou com sucesso\"] = responseCode.code === 200;",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "http://senac-crud.azurewebsites.net/api/clientes/2",
+				"url": "https://senac-crud.azurewebsites.net/api/clientes/{{id}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Clientes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"var id = postman.getEnvironmentVariable(\"id\");",
+							"var resultado = false;",
+							"console.log(id);",
+							"for (let index = 0; index < jsonData.length; index++) {",
+							"    const element = jsonData[index];",
+							"    if(element.id == id)",
+							"    {",
+							"        resultado = true;",
+							"        break;",
+							"    }",
+							"}",
+							"",
+							"tests[\"Encontrou o cliente\"] = resultado;",
+							"",
+							"",
+							"tests[\"Retornou com sucesso\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://senac-crud.azurewebsites.net/api/clientes",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -52,7 +122,7 @@
 		{
 			"name": "Alterar Cliente",
 			"request": {
-				"url": "http://senac-crud.azurewebsites.net/api/clientes/2",
+				"url": "https://senac-crud.azurewebsites.net/api/clientes/{{id}}",
 				"method": "PUT",
 				"header": [
 					{
@@ -63,17 +133,84 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\":\"2\",\"cpf\":\"3\",\"nome\":\"Teste\",\"endereco\":{\"cidade\":\"8\",\"estado\":\"6\",\"complemento\":\"4\",\"numero\":\"45\",\"logradouro\":\"6\"}}"
+					"raw": "{\n\t\"Nome\":\"Erickson2\",\n\t\"CPF\":\"412639548202\",\n\t\"Endereco\": {\n\t\t\"Logradouro\": \"Rua 102\",\n\t\t\"Numero\": \"1232\",\n\t\t\"Complemento\": \"ap 222\",\n\t\t\"Cidade\": \"São Paulo2\",\n\t\t\"Estado\": \"São Paulo3\"\n\t}\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "Excluir Cliente",
+			"name": "Consultar Cliente (Verificar Alteração)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Gravou Nome\"] = jsonData.nome === 'Erickson2';",
+							"tests[\"Gravou CPF\"] = jsonData.cpf === '412639548202';",
+							"tests[\"Gravou Logradouro\"] = jsonData.endereco.logradouro === 'Rua 102';",
+							"tests[\"Gravou Número\"] = jsonData.endereco.numero === '1232';",
+							"tests[\"Gravou Complemento\"] = jsonData.endereco.complemento === 'ap 222';",
+							"tests[\"Gravou Cidade\"] = jsonData.endereco.cidade === 'São Paulo2';",
+							"tests[\"Gravou Estado\"] = jsonData.endereco.estado === 'São Paulo3';",
+							"tests[\"Retornou com sucesso\"] = responseCode.code === 200;",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "http://senac-crud.azurewebsites.net/api/clientes/1",
+				"url": "https://senac-crud.azurewebsites.net/api/clientes/{{id}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir Cliente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Retornou com sucesso (Status 200)\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://senac-crud.azurewebsites.net/api/clientes/{{id}}",
 				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Cliente (Verificar Exclusão)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Sem conteúdo\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://senac-crud.azurewebsites.net/api/clientes/{{id}}",
+				"method": "GET",
 				"header": [],
 				"body": {},
 				"description": ""
