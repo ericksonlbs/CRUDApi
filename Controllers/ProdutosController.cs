@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRUDApi.Controllers
 {
-    [Route("api/[controller]")]
-    [Microsoft.AspNetCore.Cors.EnableCors("AllowMyOrigin")]
+  [Route("api/[controller]")]
+    [Microsoft.AspNetCore.Cors.EnableCors("CorsPolicy")]
     [ApiController]
     public class ProdutosController : ControllerBase
     {
@@ -31,13 +31,15 @@ namespace CRUDApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] Produto value)
+        public Produto Post([FromBody] Produto value)
         {
             lock (lockar)
             {
                 maxIdProduto++;                
                 value.Id = maxIdProduto;
                 Produtos.Add(value);
+
+                return value;
             }
         }
 
